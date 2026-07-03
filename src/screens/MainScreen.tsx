@@ -40,8 +40,7 @@ function pathToTab(path: string): ActiveTab | null {
   if (
     path.startsWith('/settings') ||
     path.startsWith('/connections') ||
-    path.startsWith('/inputs') ||
-    path.startsWith('/recipes')
+    path.startsWith('/inputs')
   ) return 'more';
   return null;
 }

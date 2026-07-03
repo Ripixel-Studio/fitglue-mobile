@@ -18,7 +18,6 @@ const SECTIONS: Section[] = [
       { label: 'PIPELINES', path: '/settings/pipelines' },
       { label: 'CONNECTIONS', path: '/connections' },
       { label: 'PENDING INPUTS', path: '/inputs' },
-      { label: 'RECIPES', path: '/recipes' },
     ],
   },
   {
