@@ -1,0 +1,45 @@
+name: CI
+
+# Runs the repo's real checks on every PR into the default branch, so a green
+# tick is trustworthy enough to gate auto-merging low-risk dependency bumps.
+on:
+  pull_request:
+    branches: [main]
+
+# One in-flight run per PR; a new push cancels the previous run.
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    name: checks
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4.2.2
+
+      - name: Set up Node
+        uses: actions/setup-node@v4.1.0
+        with:
+          node-version: 22
+          cache: npm
+
+      # Install from the lockfile so the exact resolved versions (including any
+      # bumped dependency) are what the checks below actually exercise.
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      # jest --coverage; fails on the coverageThreshold gate in package.json.
+      - name: Test (with coverage)
+        run: npm run test:coverage
+
+      # Per-file coverage floor: fails if any source file has zero coverage.
+      - name: Per-file coverage floor
+        run: node scripts/check-file-coverage.js
