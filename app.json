@@ -79,7 +79,7 @@
       [
         "@sentry/react-native",
         {
-          "organization": "fitglue",
+          "organization": "ripixel-studio",
           "project": "react-native"
         }
       ]

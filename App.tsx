@@ -23,7 +23,7 @@ const navigationIntegration = Sentry.reactNavigationIntegration({
 
 // Initialize Sentry before anything else
 Sentry.init({
-  dsn: 'https://5e198f53e86915f829ceb8c9d0621c33@o4510752869318656.ingest.de.sentry.io/4510902592274512',
+  dsn: 'https://0dbf0b1c14f7dfc8c864a20610c6219a@o4511870177640448.ingest.de.sentry.io/4511870186291280',
   environment,
   release: Constants.expoConfig?.version ?? '1.0.0',
   integrations: [navigationIntegration],
