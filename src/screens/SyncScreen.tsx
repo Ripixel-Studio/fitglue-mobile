@@ -144,6 +144,16 @@ export function SyncScreen({ onNavigate }: SyncScreenProps): JSX.Element {
     }
   }, []);
 
+  // Open an activity in the web app's editable detail view. The app wraps web —
+  // there is no native activity-edit UI; we route the authenticated main WebView
+  // to the SPA detail route (same `/activities/:id` path deep links use) and let
+  // the overlay close. The host (MainScreen.handleOverlayNavigate) handles both.
+  const handleOpenActivity = useCallback((id: string) => {
+    if (!id) return;
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    onNavigate(`/activities/${id}`);
+  }, [onNavigate]);
+
   const handleSignOut = useCallback(() => {
     Alert.alert('Sign Out', 'Are you sure you want to sign out?', [
       { text: 'Cancel', style: 'cancel' },
@@ -242,7 +252,15 @@ export function SyncScreen({ onNavigate }: SyncScreenProps): JSX.Element {
             </View>
           ) : (
             recentActivities.map((act) => (
-              <View key={act.id} style={styles.activityRow}>
+              <TouchableOpacity
+                key={act.id}
+                style={styles.activityRow}
+                onPress={() => handleOpenActivity(act.id)}
+                disabled={!act.id}
+                activeOpacity={0.7}
+                accessibilityRole="button"
+                accessibilityLabel={`EDIT ${act.name}`}
+              >
                 <View style={styles.activityType}>
                   <Text style={styles.activityTypeText}>{act.type?.substring(0, 3).toUpperCase() ?? '---'}</Text>
                 </View>
@@ -254,7 +272,8 @@ export function SyncScreen({ onNavigate }: SyncScreenProps): JSX.Element {
                   </Text>
                 </View>
                 <View style={[styles.syncDot, styles.dotCyan]} />
-              </View>
+                <Text style={styles.activityArrow}>›</Text>
+              </TouchableOpacity>
             ))
           )}
         </View>
@@ -454,5 +473,11 @@ const styles = StyleSheet.create({
     letterSpacing: 1,
     textTransform: 'uppercase',
     marginTop: 2,
+  },
+  activityArrow: {
+    fontSize: 20,
+    color: colors.textMuted,
+    fontWeight: '300',
+    marginLeft: spacing.xs,
   },
 });
