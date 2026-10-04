@@ -125,6 +125,20 @@ describe('SyncScreen', () => {
     await waitFor(() => expect(screen.getByText('Morning Run')).toBeTruthy());
   });
 
+  it('links a tapped recent activity out to the web editable detail view', async () => {
+    const onNavigate = jest.fn();
+    mockApiGet.mockResolvedValue({
+      data: { activities: [{ id: 'a1', name: 'Morning Run', type: 'Running', startedAt: '2026-01-02T08:00:00Z', durationSeconds: 1800 }] },
+    });
+    render(<SyncScreen onNavigate={onNavigate} />);
+    await waitFor(() => expect(screen.getByText('Morning Run')).toBeTruthy());
+
+    fireEvent.press(screen.getByLabelText('EDIT Morning Run'));
+
+    expect(onNavigate).toHaveBeenCalledWith('/activities/a1');
+    expect(mockImpactAsync).toHaveBeenCalled();
+  });
+
   it('initialises health and requests permissions via the card callback', async () => {
     const initialize = jest.fn().mockResolvedValue(true);
     const requestPermissions = jest.fn().mockResolvedValue({});
