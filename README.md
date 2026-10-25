@@ -1,5 +1,24 @@
 # FitGlue Mobile App
 
+> ## Retired 2026-10
+>
+> FitGlue is now a single-user, personal project. The Apple Health and Health
+> Connect sources it existed to feed were dropped in the October 2026 rethink, so
+> this app has no job left and the repository is archived. Nothing here is
+> built, submitted or updated any more: the GitHub CI workflow, the EAS workflow
+> and `eas.json` were removed in the retiring PR so that nothing can auto-build
+> or auto-submit, and [`RETIREMENT.md`](RETIREMENT.md) holds the by-hand store,
+> EAS and credential checklist.
+>
+> The showcase that the app used to open lives on at
+> [ripixel.co.uk/life](https://ripixel.co.uk/life).
+>
+> Everything below this line is the pre-retirement README, kept as a record of
+> how the app was built.
+
+---
+
+
 The official mobile companion app for the FitGlue platform. Automatically syncs workouts from iOS Apple Health and Android Health Connect to your FitGlue account.
 
 ## Tech Stack
